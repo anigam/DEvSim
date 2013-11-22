@@ -36,26 +36,27 @@ public class OS {
 		//add first event to queue
 		Event curEvent=scheduler.getCurrentEvent();
 		eventQueue.add(curEvent);
-		
+			
 		while(!eventQueue.isEmpty())
 		{
-			Event e=eventQueue.remove();
+			int remTime=quantum;
 			ResourceManager manager;
-			int page_fault_count = manager.needs(e.getResourcesNeeded());
-			if(page_fault_count==0) //Event has all the desired resources
+			while(remTime>0)
 			{
-				int remTime=quantum;
-				while(remTime>0)
+				Event e=eventQueue.remove();
+				int page_fault_count = manager.needs(e.getResourcesNeeded());
+				remTime=e.DoEvent(remTime);
+				if(remTime>0)
 				{
-					remTime=e.DoEvent(quantum);
+					Event nextEvent=scheduler.getCurrentEvent();
+					eventQueue.add(nextEvent);
 				}
-				
 			}
 			boolean check=scheduler.contextSwitch();
 			if(check)
 				OS.TIME += context_switch_cost;
-			
-				OS.TIME += quantum;			
+			OS.TIME += quantum;			
 		}
-	}	
+		
+ 	}	
 }

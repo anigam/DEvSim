@@ -1,40 +1,27 @@
-package process;
-
-import java.util.Vector;
+import java.util.*;
 
 public class Process {
+	private int pid;
+	public ArrayList<Event> EventList;
+	private int remaining_event_num;
 	
-	private Vector<Event> tasks;
-	private State state;
-	
-	public enum State {
-	    READY, RUNNING 
+	public Process(int pid, ArrayList<Event> EventList) {
+		this.pid = pid;
+		this.EventList = EventList;
+		this.remaining_event_num = this.EventList.size();
 	}
 
-	public Process(Vector<Event> tasks) {
-		this.tasks = tasks;
-	}
-	
-	public Process() {
-		this.tasks = new Vector<Event>();
-	}
-	
-	public void addTask(Event task){
-		tasks.add(task);
-	}
-	
-	public Event popTask(){
-		Event task = tasks.firstElement();
-		tasks.remove(0);		
-		return task;
+	//get the num of the remaining events to judge whether the whole process has finished or not.
+	public int get_remaining_event_num(){
+		return this.EventList.size();
 	}
 
-	public State getState() {
-		return state;
+	public Event PopEvent() {
+		return this.EventList.remove(0);
 	}
 
-	public void setState(State state) {
-		this.state = state;
+	//at the end of one quantum, if one event E still does not finish, add it into the first place of the EventList, so that next time when this Process obtain the right to use CPU, it can continue to execute E.
+	public void PushFirst(Event event){
+		this.EventList.add(0, event);
 	}
-	
 }
