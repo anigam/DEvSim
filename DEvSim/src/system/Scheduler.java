@@ -19,7 +19,7 @@ public class Scheduler {
 	{
 		Event e=null;
 		Process curProcess=ProcessList.elementAt(0);
-		e=curProcess.PopEvent();
+		e=curProcess.popEvent();
 		return e;
 	}
 	
