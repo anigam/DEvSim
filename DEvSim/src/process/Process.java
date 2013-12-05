@@ -19,8 +19,15 @@ public class Process {
 		return this.EventList.size();
 	}
 
-	public Event popEvent() {
+	/*public Event popEvent() {
 		return this.EventList.remove(0);
+	}*/
+	
+	public Event popEvent() {
+		if(EventList.size()>0)
+			return this.EventList.remove(0);
+		else 
+			return null;
 	}
 
 	//at the end of one quantum, if one event E still does not finish, add it into the first place of the EventList, so that next time when this Process obtain the right to use CPU, it can continue to execute E.
