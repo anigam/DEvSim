@@ -45,4 +45,16 @@ public class Event {
 	public ArrayList<Block> getResourcesNeeded(){
 		return this.BlockList;
 	}
+	
+	public boolean eventFinished()
+	{
+		if(this.remaining_time==0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
